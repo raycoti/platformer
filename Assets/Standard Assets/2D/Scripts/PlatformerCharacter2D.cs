@@ -10,7 +10,7 @@ namespace UnityStandardAssets._2D
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
-
+        private string direction;
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
         private bool m_Grounded;            // Whether or not the player is grounded.
@@ -27,6 +27,7 @@ namespace UnityStandardAssets._2D
             m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody>();
+            UpDateDirection(m_Rigidbody2D.rotation.eulerAngles.y);
         }
 
 
@@ -43,12 +44,25 @@ namespace UnityStandardAssets._2D
                     m_Grounded = true;
             }
             m_Anim.SetBool("Ground", m_Grounded);
-            print(m_Rigidbody2D.rotation.eulerAngles.y);
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
-
+        public void UpDateDirection(float newDir){
+            if(newDir > -1 && newDir < 10){ //0
+                direction= "front";
+            }
+            else if(newDir > 170 && newDir < 183){ //180
+                direction = "back";
+            }
+            else if(newDir > 260 && newDir < 280){ // 270
+                direction = "left";
+            }
+            else {
+                direction = "right";
+            }
+            print(direction);
+        }
         public void Move(float move, bool crouch, bool jump)
         {
             // If crouching, check to see if the character can stand up
@@ -74,7 +88,27 @@ namespace UnityStandardAssets._2D
                 m_Anim.SetFloat("Speed", Mathf.Abs(move));
 
                 // Move the character
-                m_Rigidbody2D.velocity = new Vector3(0, m_Rigidbody2D.velocity.y,move*m_MaxSpeed);
+               // print(m_Rigidbody2D.rotation.eulerAngles.y);
+
+                Vector3 newVel; 
+                switch(direction){
+                    case "front":
+                        newVel = new Vector3(move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0); 
+                        break;
+                    case "back":
+                        newVel = new Vector3(-move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0);
+                        break;
+                    case "left":
+                        newVel = new Vector3(0, m_Rigidbody2D.velocity.y,move*m_MaxSpeed);
+                        break;
+                    case "right":
+                        newVel = new Vector3(0, m_Rigidbody2D.velocity.y,-move*m_MaxSpeed);
+                        break;
+                    default: 
+                        newVel = new Vector3(0, m_Rigidbody2D.velocity.y,move*m_MaxSpeed);
+                        break;
+                }
+                m_Rigidbody2D.velocity = newVel;
 
                 // If the input is moving the player right and the player is facing left...
                 if (move > 0 && !m_FacingRight)
