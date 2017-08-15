@@ -20,9 +20,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000014280501830}
   - 33: {fileID: 33000014258590266}
-  - 136: {fileID: 136000012958626442}
+  - 65: {fileID: 65000012765493878}
   - 23: {fileID: 23000011220065936}
-  - 114: {fileID: 114000011088575630}
   m_Layer: 0
   m_Name: rotater
   m_TagString: Untagged
@@ -37,8 +36,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011809734236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.74, y: -7.441, z: 0.75}
-  m_LocalScale: {x: 0.5179351, y: 1.3285922, z: 0.5179351}
+  m_LocalPosition: {x: -1.7, y: -12.21, z: -5.918}
+  m_LocalScale: {x: 277.5092, y: 4.295392, z: 361.54114}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,7 +51,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
@@ -77,32 +76,16 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011809734236}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114000011088575630
-MonoBehaviour:
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65000012765493878
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011809734236}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6a93af794def4a72b991c6ac5b5cf08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScript: {fileID: 0}
-  d1: 270
-  d2: 0
-  toggle: 0
---- !u!136 &136000012958626442
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011809734236}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.9999999, y: 1.3869781, z: 1.0252582}
+  m_Center: {x: 0, y: 0.19348897, z: -0.0024110682}

@@ -10,7 +10,7 @@ namespace UnityStandardAssets._2D
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
-        private string direction;
+        public string direction;
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
         private bool m_Grounded;            // Whether or not the player is grounded.
@@ -27,7 +27,7 @@ namespace UnityStandardAssets._2D
             m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody>();
-            UpDateDirection(m_Rigidbody2D.rotation.eulerAngles.y);
+            UpDateDirection(m_Rigidbody2D.rotation.eulerAngles.y,false);
         }
 
 
@@ -48,23 +48,32 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
-        public void UpDateDirection(float newDir){
+        public void UpDateDirection(float newDir, bool move){
             //transform.eulerAngles = new Vector3(0, newDir, 0);
             Vector3 target = new Vector3(0,newDir,0);
+            Vector3 stayCenter;
             m_Rigidbody2D.MoveRotation(Quaternion.Euler(target));
             if(newDir > -1 && newDir < 10){ //0
                 direction= "front";
+                stayCenter = new Vector3(m_Rigidbody2D.position.x,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z+1);
             }
             else if(newDir > 170 && newDir < 183){ //180
                 direction = "back";
+                stayCenter = new Vector3(m_Rigidbody2D.position.x,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z);
             }
             else if(newDir > 260 && newDir < 280){ // 270
                 direction = "left";
+                stayCenter = new Vector3(m_Rigidbody2D.position.x,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z);
             }
             else {
                 direction = "right";
+                 stayCenter = new Vector3(m_Rigidbody2D.position.x+1,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z);
             }
-            print(direction);
+            if(move){
+                print(direction);
+                print(newDir);
+                m_Rigidbody2D.position = stayCenter;
+            }
         }
         public void Move(float move, bool crouch, bool jump)
         {
@@ -96,7 +105,8 @@ namespace UnityStandardAssets._2D
                 Vector3 newVel; 
                 switch(direction){
                     case "front":
-                        newVel = new Vector3(move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0); 
+                        newVel = new Vector3(move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0);
+                        //x +
                         break;
                     case "back":
                         newVel = new Vector3(-move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0);
