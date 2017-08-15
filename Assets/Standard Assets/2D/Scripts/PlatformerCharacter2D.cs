@@ -49,6 +49,9 @@ namespace UnityStandardAssets._2D
         }
 
         public void UpDateDirection(float newDir){
+            //transform.eulerAngles = new Vector3(0, newDir, 0);
+            Vector3 target = new Vector3(0,newDir,0);
+            m_Rigidbody2D.MoveRotation(Quaternion.Euler(target));
             if(newDir > -1 && newDir < 10){ //0
                 direction= "front";
             }

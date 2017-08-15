@@ -5,10 +5,15 @@ public class rotatePlayer : MonoBehaviour {
 	public PlatformerCharacter2D playerScript;
 	private GameObject player;
 	// Use this for initialization
+	public float d1;
+	public float d2;
+	public bool toggle;
 	void Start () {
 		player = GameObject.Find("CharacterRobotBoy");
 		//print(player.GetComponent<PlatformerCharacter2D>());
-	playerScript = GameObject.Find("CharacterRobotBoy").GetComponent<PlatformerCharacter2D>();
+	if(!playerScript) {playerScript = GameObject.Find("CharacterRobotBoy").GetComponent<PlatformerCharacter2D>();}
+	
+
 	}
 	
 	// Update is called once per frame
@@ -18,6 +23,13 @@ public class rotatePlayer : MonoBehaviour {
 	void OnTriggerEnter(Collider collision)
     {
         print("ouch");
-			//	playerScript.upDateDirection(0.0);
+		if(toggle){
+			playerScript.UpDateDirection(d1);
+		}
+		else{
+			playerScript.UpDateDirection(d2);
+		}
+		toggle = !toggle;
+		
     }
 }
