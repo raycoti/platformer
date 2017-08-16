@@ -27,7 +27,7 @@ namespace UnityStandardAssets._2D
             m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody>();
-            UpDateDirection(m_Rigidbody2D.rotation.eulerAngles.y,false);
+            UpDateDirection(m_Rigidbody2D.rotation.eulerAngles.y,m_Rigidbody2D.position.x,m_Rigidbody2D.position.z,false);
         }
 
 
@@ -48,31 +48,32 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
-        public void UpDateDirection(float newDir, bool move){
+        public void UpDateDirection(float newDir,float x, float z, bool move){
             //transform.eulerAngles = new Vector3(0, newDir, 0);
             Vector3 target = new Vector3(0,newDir,0);
             Vector3 stayCenter;
+            string prevDirection = direction;
+            float cent = 1;
             m_Rigidbody2D.MoveRotation(Quaternion.Euler(target));
             if(newDir > -1 && newDir < 10){ //0
                 direction= "front";
-                stayCenter = new Vector3(m_Rigidbody2D.position.x,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z+1);
+                stayCenter = new Vector3(x,m_Rigidbody2D.position.y,z);
             }
             else if(newDir > 170 && newDir < 183){ //180
                 direction = "back";
-                stayCenter = new Vector3(m_Rigidbody2D.position.x,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z);
+                stayCenter = new Vector3(x,m_Rigidbody2D.position.y,z);
             }
             else if(newDir > 260 && newDir < 280){ // 270
                 direction = "left";
-                stayCenter = new Vector3(m_Rigidbody2D.position.x,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z);
+                stayCenter = new Vector3(x,m_Rigidbody2D.position.y,z);
             }
             else {
                 direction = "right";
-                 stayCenter = new Vector3(m_Rigidbody2D.position.x+1,m_Rigidbody2D.position.y,m_Rigidbody2D.position.z);
+                 stayCenter = new Vector3(x,m_Rigidbody2D.position.y,z);
             }
             if(move){
-                print(direction);
-                print(newDir);
                 m_Rigidbody2D.position = stayCenter;
+                print(direction);
             }
         }
         public void Move(float move, bool crouch, bool jump)

@@ -4,11 +4,13 @@ using UnityStandardAssets._2D;
 public class rotatePlayer : MonoBehaviour {
 	public PlatformerCharacter2D playerScript;
 	private GameObject player;
+	private Transform m_Rigidbody;
 	// Use this for initialization
 	public float d1;
 	public float d2;
 	public bool toggle;
 	void Start () {
+		m_Rigidbody = GetComponent<Transform>();
 		player = GameObject.Find("CharacterRobotBoy");
 		//print(player.GetComponent<PlatformerCharacter2D>());
 	if(!playerScript) {playerScript = GameObject.Find("CharacterRobotBoy").GetComponent<PlatformerCharacter2D>();}
@@ -30,22 +32,23 @@ public class rotatePlayer : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter(Collider collision)
-    {
+    {	
 		
+		//x and z should be center of this square;
 		if(hasCollide == false){
 			Collidetimer = Time.deltaTime + 0.2f;
 			currentTime = 0;
 			if(toggle){
-				playerScript.UpDateDirection(d1,true);
+				playerScript.UpDateDirection(d1,m_Rigidbody.position.x,m_Rigidbody.position.z,true);
 			}
 			else{
-				playerScript.UpDateDirection(d2,true);
+				playerScript.UpDateDirection(d2,m_Rigidbody.position.x,m_Rigidbody.position.z,true);
 			}
             hasCollide = true;   
 			toggle = !toggle;
-			print(Collidetimer);
-        print("collided");
-		print(Time.deltaTime);
+			//print(Collidetimer);
+        //print("collided");
+		//print(Time.deltaTime);
 		}
     }
 }
