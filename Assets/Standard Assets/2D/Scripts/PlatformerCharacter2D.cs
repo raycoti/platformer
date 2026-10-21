@@ -45,7 +45,7 @@ namespace UnityStandardAssets._2D
             }
             m_Anim.SetBool("Ground", m_Grounded);
             // Set the vertical animation
-            m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+            m_Anim.SetFloat("vSpeed", m_Rigidbody2D.linearVelocity.y);
         }
 
         public void UpDateDirection(float newDir,float x, float z, bool move){
@@ -106,23 +106,23 @@ namespace UnityStandardAssets._2D
                 Vector3 newVel; 
                 switch(direction){
                     case "front":
-                        newVel = new Vector3(move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0);
+                        newVel = new Vector3(move*m_MaxSpeed, m_Rigidbody2D.linearVelocity.y,0);
                         //x +
                         break;
                     case "back":
-                        newVel = new Vector3(-move*m_MaxSpeed, m_Rigidbody2D.velocity.y,0);
+                        newVel = new Vector3(-move*m_MaxSpeed, m_Rigidbody2D.linearVelocity.y,0);
                         break;
                     case "left":
-                        newVel = new Vector3(0, m_Rigidbody2D.velocity.y,move*m_MaxSpeed);
+                        newVel = new Vector3(0, m_Rigidbody2D.linearVelocity.y,move*m_MaxSpeed);
                         break;
                     case "right":
-                        newVel = new Vector3(0, m_Rigidbody2D.velocity.y,-move*m_MaxSpeed);
+                        newVel = new Vector3(0, m_Rigidbody2D.linearVelocity.y,-move*m_MaxSpeed);
                         break;
                     default: 
-                        newVel = new Vector3(0, m_Rigidbody2D.velocity.y,move*m_MaxSpeed);
+                        newVel = new Vector3(0, m_Rigidbody2D.linearVelocity.y,move*m_MaxSpeed);
                         break;
                 }
-                m_Rigidbody2D.velocity = newVel;
+                m_Rigidbody2D.linearVelocity = newVel;
 
                 // If the input is moving the player right and the player is facing left...
                 if (move > 0 && !m_FacingRight)
